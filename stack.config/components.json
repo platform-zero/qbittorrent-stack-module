@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "defaultComponents": [],
+  "components": {
+    "qbittorrent": {
+      "name": "qBittorrent",
+      "description": "Torrent client.",
+      "dependencies": [
+        "core"
+      ],
+      "composeFiles": [
+        "qbittorrent.yml"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "qbittorrent",
+  "repo": "qbittorrent-stack-module",
+  "runtimeId": "qbittorrent",
+  "lifecycle": "active",
+  "dependencies": [
+    "stack-foundation"
+  ],
+  "overlays": [
+    "stack.compose/qbittorrent.yml",
+    "stack.config/components.json",
+    "stack.config/qbittorrent",
+    "stack.config/qbittorrent/init/10-configure-auth.sh",
+    "stack.config/qbittorrent/qBittorrent.conf"
+  ]
+}
