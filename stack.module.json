@@ -10,7 +10,6 @@
   "overlays": [
     "stack.compose/qbittorrent.yml",
     "stack.config/components.json",
-    "stack.config/qbittorrent",
     "stack.config/qbittorrent/init/10-configure-auth.sh",
     "stack.config/qbittorrent/qBittorrent.conf"
   ]
