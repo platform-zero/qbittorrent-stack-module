@@ -1,3 +1,24 @@
-# qbittorrent-stack-module
+# qbittorrent stack module
 
-Stack module `qbittorrent` extracted from `sso-stack-generator`.
+- Module id: `qbittorrent`
+- Module repo: `qbittorrent-stack-module`
+- Source repo: none declared
+- Lifecycle: `active`
+
+## Owned overlays
+- `stack.compose/qbittorrent.yml`
+- `stack.config/components.json`
+- `stack.config/qbittorrent`
+
+## Dependencies
+- `stack-foundation`
+
+## Validation
+
+```sh
+./tests/validate.sh
+```
+
+## Lifecycle
+
+`active` modules are expected to keep `stack.module.json`, owned overlays, and `tests/validate.sh` in sync.
