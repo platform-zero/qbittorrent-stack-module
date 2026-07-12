@@ -1,0 +1,41 @@
+{
+  "configuration": {
+    "schema": {
+      "additionalProperties": false,
+      "properties": {},
+      "type": "object"
+    }
+  },
+  "id": "qbittorrent",
+  "overlays": [
+    "stack.compose/qbittorrent.yml",
+    "stack.config/components.json",
+    "stack.config/qbittorrent/init/10-configure-auth.sh",
+    "stack.config/qbittorrent/qBittorrent.conf"
+  ],
+  "provides": [
+    {
+      "capability": "module:qbittorrent",
+      "version": "1"
+    }
+  ],
+  "requires": [
+    {
+      "capability": "module:stack-foundation",
+      "version": "1"
+    }
+  ],
+  "schemaVersion": 1,
+  "services": [
+    {
+      "name": "qbittorrent",
+      "routes": [],
+      "volumes": []
+    }
+  ],
+  "verification": {
+    "commands": [
+      "test -f stack.module.json && test -f module.json"
+    ]
+  }
+}
