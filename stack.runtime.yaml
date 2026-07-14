@@ -13,8 +13,8 @@ services:
       caddy: "started"
       volume-init: "completed"
     environment:
-      PUID: "${DOCKER_USER_ID:-1000}"
-      PGID: "${DOCKER_GROUP_ID:-1000}"
+      PUID: "${CONTAINER_USER_ID:-1000}"
+      PGID: "${CONTAINER_GROUP_ID:-1000}"
       TZ: "UTC"
       WEBUI_PORT: 8080
     networks:
