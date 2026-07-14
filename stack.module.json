@@ -16,7 +16,6 @@
   "smoke": "external-only",
   "smokeUnsupportedReason": "requires generated bundle context, deployed networking, secrets, or service dependencies",
   "overlays": [
-    "stack.compose/qbittorrent.yml",
     "stack.config/components.json",
     "stack.config/qbittorrent/init/10-configure-auth.sh",
     "stack.config/qbittorrent/qBittorrent.conf",

@@ -1,4 +1,5 @@
 #!/usr/bin/with-contenv bash
+# shellcheck shell=bash
 set -euo pipefail
 
 CONF_DIR="${QBITTORRENT_CONF_DIR:-/config/qBittorrent}"

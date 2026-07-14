@@ -6,7 +6,7 @@
 - Lifecycle: `active`
 
 ## Owned overlays
-- `stack.compose/qbittorrent.yml`
+- `stack.runtime.yaml`
 - `stack.config/components.json`
 - `stack.config/qbittorrent`
 
