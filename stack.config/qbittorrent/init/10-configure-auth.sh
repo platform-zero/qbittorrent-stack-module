@@ -8,11 +8,15 @@ CONFIG_OWNER="${QBITTORRENT_CONFIG_OWNER:-abc:abc}"
 echo "[qbittorrent-init] Enforcing reverse-proxy WebUI auth settings..."
 mkdir -p "$CONF_DIR"
 
-resolve_caddy_whitelist() {
-    local caddy_ips
-    caddy_ips="$(getent ahostsv4 caddy | awk '{print $1}' | sort -u | paste -sd, -)"
-    if [ -n "$caddy_ips" ]; then
-        printf '127.0.0.1,%s\n' "$caddy_ips"
+resolve_proxy_whitelist() {
+    local attached_subnets
+    # Caddy reaches this rootless service through its loopback-published port.
+    # Netavark/rootlessport originates that connection from an attached-network
+    # gateway-side address in an attached subnet, not from a resolvable `caddy`
+    # container on this user network.
+    attached_subnets="$(ip -4 route | awk '$1 ~ /^[0-9.]+\/[0-9]+$/ && $2 == "dev" { print $1 }' | sort -u | paste -sd, -)"
+    if [ -n "$attached_subnets" ]; then
+        printf '127.0.0.1,%s\n' "$attached_subnets"
     else
         printf '%s\n' '127.0.0.1'
     fi
@@ -101,15 +105,17 @@ if ! grep -q "^\[Preferences\]" "$CONF_FILE"; then
     printf '\n[Preferences]\n' >> "$CONF_FILE"
 fi
 
-caddy_whitelist="$(resolve_caddy_whitelist)"
+caddy_whitelist="$(resolve_proxy_whitelist)"
 if [ -z "$caddy_whitelist" ]; then
     caddy_whitelist="127.0.0.1"
-    echo "[qbittorrent-init] WARNING: could not resolve attached container subnets; WebUI bypass will only trust localhost" >&2
+    echo "[qbittorrent-init] WARNING: could not resolve attached-network subnets; WebUI bypass will only trust localhost" >&2
 fi
 
 upsert_preference 'WebUI\AuthSubnetWhitelistEnabled' 'WebUI\AuthSubnetWhitelistEnabled=true'
 upsert_preference 'WebUI\AuthSubnetWhitelist' "WebUI\\AuthSubnetWhitelist=${caddy_whitelist}"
 upsert_preference 'WebUI\BypassLocalAuth' 'WebUI\BypassLocalAuth=true'
+upsert_preference 'WebUI\ReverseProxySupportEnabled' 'WebUI\ReverseProxySupportEnabled=true'
+upsert_preference 'WebUI\TrustedReverseProxiesList' "WebUI\\TrustedReverseProxiesList=${caddy_whitelist}"
 upsert_preference 'WebUI\Username' 'WebUI\Username=webservices-proxy'
 upsert_preference 'WebUI\Password_PBKDF2' 'WebUI\Password_PBKDF2="@ByteArray(a1uo4KkKy+WfbDjnu0cCTg==:/ziHNcmC/42IbqpcPVF/I4EiOdzb5ODctfGSSKd/STDM2gJqFIH+562Ny0oqwtszXEhpZb3XdhNYKIbGnuLU/g==)"'
 
